@@ -198,9 +198,9 @@ async fn bindgen(proj: &Project) -> Result<Outcome<Product>> {
 }
 
 fn optimize(file: &Utf8Path) -> Result<()> {
-    OptimizationOptions::new_optimize_for_size_aggressively()
-        .run(file, file)
-        .dot()
+    let mut opts = OptimizationOptions::new_optimize_for_size_aggressively();
+    opts.features.enabled.insert(wasm_opt::Feature::All);
+    opts.run(file, file).dot()
 }
 
 fn minify<JS: AsRef<str>>(js: JS) -> Result<String> {
